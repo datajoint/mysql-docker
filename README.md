@@ -1,9 +1,6 @@
 # MySQL for DataJoint
 This is a docker image of mysql that comes configured for use with DataJoint!
 
-## Warning to Mac and Windows users
-Please note that there are still some issues running a MySQL Docker container on virtual machines under Mac and Windows, as in particular MySQL image cannot work well with files that are mapped from the host machine (i.e. Mac/Windows) onto the virtual machine on which the Docker container is running. This issue is expected to be resolved once [integrated Docker solution for Mac and Windows gets released](https://blog.docker.com/2016/03/docker-for-mac-windows-beta/). Until then, users are recommended to use Docker based MySQL deployment on Mac and Windows only for testing purposes. Refer to instructions below to modify the content of `docker-compose.yml` such that you can run the container on Mac/Windows. Please be aware that after the modificatio of the `docker-compose.yml`, the data you store in MySQL container on Mac/Windows should generally be considered **not properly backed up** and thus users are strongly discouraged to store any important data in the MySQL server running this way!! Until the integrated Docker becomes available, please consider running MySQL container on a Linux machine.
-
 ## How to use
 
 ### Using `docker-compose`
