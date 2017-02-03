@@ -1,6 +1,9 @@
 # MySQL for DataJoint
 This is a docker image of mysql that comes configured for use with DataJoint!
 
+## Administering the MySQL server
+**WARNING** Whether hosted via Docker or directly on a machine, the MySQL server needs to be administered properly. Please refer to an [appropriate reference](https://dev.mysql.com/doc/refman/5.7/en/server-administration.html) to administer the server safely and efficiently.
+
 ## How to use
 
 ### Using `docker-compose`
@@ -15,7 +18,13 @@ $ sudo docker-compose up -d
 
 This will start the MySQL server mapped to localhost's port `3306`, and any MySQL data will be stored in the direction `./data`, on if you followed the above instructions, `mysql-docker/data` directory. 
 
-By default the database sets up user `root` with password `simple` (refer to below on how to change this at the startup). You can access your locally running MySQL server as below
+By default the database sets up user `root` with password `simple` (refer to below on how to change this at the startup). You can access your locally running MySQL server using `mysql` client. On Ubuntu system, you can obtain this by installing `apt` package `mysql-client` as follows:
+
+```bash
+$ sudo apt-get install mysql-client
+```
+
+Once `mysql` client is installed, you can access the running server:
 
 ```bash
 $ mysql -h 127.0.0.1 -u root -p
