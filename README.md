@@ -66,4 +66,15 @@ volumes:
   - ./data:/var/lib/mysql
 ```
 
-maps the local directory `./data` to the `/var/lib/mysql` inside the container where MySQL stores all of its data by default. If you are running on Mac or Windows, make sure to remove these two lines for you to be able to run the container via `docker-compose up`.
+maps the local directory `./data` to the `/var/lib/mysql` inside the container where MySQL stores all of its data by default.
+
+**WARNING**: If you decide map volume `/var/lib/mysql` (like in the example), then settings for your MySQL server will persist across separate Docker `mysql` instances. In particular, this means that the `MYSQL_ROOT_PASSWORD` setting will be used only when the very first `mysql` Docker container is created. To change the `root` password on an alredy created `mysql` Docker instance, access the database via `mysql` client as `root` and run:
+
+```bash
+$ mysql -h 127.0.0.1 -u root -p
+Enter password: [type in your old password]
+
+mysql > SET PASSWORD FOR root = PASSWORD('your_new_password');
+```
+
+replacing the `'your_new_password'` with your new desired password surrounded by quotes (`'`).
