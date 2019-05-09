@@ -16,7 +16,7 @@ $ wget https://raw.githubusercontent.com/datajoint/mysql-docker/master/docker-co
 $ sudo docker-compose up -d
 ```
 
-This will start the MySQL server mapped to localhost's port `3306`, and any MySQL data will be stored in the direction `./data`, on if you followed the above instructions, `mysql-docker/data` directory. 
+This will start the MySQL server mapped to localhost's port `3306`, and any MySQL data will be stored in the directory `./data`, or if you followed the above instructions, `mysql-docker/data` directory. 
 
 By default the database sets up user `root` with password `simple` (refer to below on how to change this at the startup). You can access your locally running MySQL server using `mysql` client. On Ubuntu system, you can obtain this by installing `apt` package `mysql-client` as follows:
 
