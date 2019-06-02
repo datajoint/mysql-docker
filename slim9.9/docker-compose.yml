@@ -2,7 +2,9 @@ version: '2.4'
 
 services:
   db:
-    image: datajoint/mysql:8.0-slim9.9
+    # image: datajoint/mysql:5.6-slim9.9
+    image: datajoint/mysql:5.7-slim9.9
+    # image: datajoint/mysql:8.0-slim9.9
     ports:
       - "3306:3306"
     environment:
