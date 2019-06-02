@@ -8,7 +8,11 @@ env:
 - MYSQL_VER=5.8
 os:
 - linux
+    script:
+    - echo "test"
 - windows
+    script:
+    - echo hello
 # matrix:
 #   include:
 #   - name: "MySQL Build"
@@ -16,5 +20,5 @@ os:
     
     # - docker build --build-arg MYSQL_VER=$MYSQL_VER -t raphaelguzman/mysql:$MYSQL_VER-slim9.9 slim9.9/.
 
-script:
-    - echo $MYSQL_VER
+# script:
+#     - echo $MYSQL_VER
