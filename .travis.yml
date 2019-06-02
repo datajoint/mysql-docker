@@ -1,0 +1,14 @@
+sudo: required
+services: 
+- docker
+env:
+- MYSQL_VER=5.6
+- MYSQL_VER=5.7
+- MYSQL_VER=5.8
+matrix:
+  include:
+  - name: "MySQL Build"
+    os: linux
+    script:
+    - echo $MYSQL_VER
+    # - docker build --build-arg MYSQL_VER=$MYSQL_VER -t raphaelguzman/mysql:$MYSQL_VER-slim9.9 slim9.9/.
