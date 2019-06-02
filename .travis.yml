@@ -2,17 +2,29 @@ sudo: required
 language: shell
 services: 
 - docker
-env:
-- MYSQL_VER=5.6
-- MYSQL_VER=5.7
-- MYSQL_VER=5.8
-os:
-- linux
-    script:
-    - echo "test"
-- windows
-    script:
-    - echo hello
+# env:
+# - MYSQL_VER=5.6
+# - MYSQL_VER=5.7
+# - MYSQL_VER=5.8
+# os:
+# - linux
+#     script:
+#     - echo "test"
+# - windows
+#     script:
+#     - echo hello
+
+matrix:
+    include:
+        - os: linux
+        - env:
+            - MYSQL_VER=5.6
+            - MYSQL_VER=5.7
+            - MYSQL_VER=5.8
+        - script:
+            - echo "test"
+          
+    
 # matrix:
 #   include:
 #   - name: "MySQL Build"
