@@ -2,10 +2,10 @@ sudo: required
 language: shell
 services: 
 - docker
-env:
-- MYSQL_VER=5.6
-- MYSQL_VER=5.7
-- MYSQL_VER=5.8
+# env:
+# - MYSQL_VER=5.6
+# - MYSQL_VER=5.7
+# - MYSQL_VER=5.8
 # os:
 # - linux
 #     script:
@@ -16,12 +16,13 @@ env:
 
 matrix:
     include:
-        - os: linux
-        # - env:
-        #     - MYSQL_VER=5.6
-        #     - MYSQL_VER=5.7
-        #     - MYSQL_VER=5.8
-        - script:
+        - name: "MySQL Linux"
+          os: linux
+          env:
+            - MYSQL_VER=5.6
+            - MYSQL_VER=5.7
+            - MYSQL_VER=5.8
+          script:
             - echo "test"
           
     
