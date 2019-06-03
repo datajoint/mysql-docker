@@ -1,30 +1,57 @@
+# sudo: required
+# language: shell
+# services: 
+# - docker
+# matrix:
+#   include:
+#   - env:
+#     - MYSQL_VER=5.6
+#     os: linux
+#     script:
+#     - docker build --build-arg MYSQL_VER=$MYSQL_VER -t raphaelguzman/mysql:$MYSQL_VER-slim9.9 slim9.9/.
+#     after_success:
+#     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+#     - docker push raphaelguzman/mysql:$MYSQL_VER-slim9.9
+#   - env:
+#     - MYSQL_VER=5.7
+#     os: linux
+#     script:
+#     - docker build --build-arg MYSQL_VER=$MYSQL_VER -t raphaelguzman/mysql:$MYSQL_VER-slim9.9 slim9.9/.
+#     after_success:
+#     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+#     - docker push raphaelguzman/mysql:$MYSQL_VER-slim9.9
+#   - env:
+#     - MYSQL_VER=8.0
+#     os: linux
+#     script:
+#     - docker build --build-arg MYSQL_VER=$MYSQL_VER -t raphaelguzman/mysql:$MYSQL_VER-slim9.9 slim9.9/.
+#     after_success:
+#     - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+#     - docker push raphaelguzman/mysql:$MYSQL_VER-slim9.9
+
+
 sudo: required
-language: shell
 services: 
 - docker
-matrix:
+
+slim: &slim
+      stage: Slim9.9
+      os: linux
+      language: shell
+      script:
+        - docker build --build-arg MYSQL_VER=$MYSQL_VER -t raphaelguzman/mysql:$MYSQL_VER-slim9.9 slim9.9/.
+      after_success:
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+        - docker push raphaelguzman/mysql:$MYSQL_VER-slim9.9
+
+jobs:
   include:
-  - env:
-    - MYSQL_VER=5.6
-    os: linux
-    script:
-    - docker build --build-arg MYSQL_VER=$MYSQL_VER -t raphaelguzman/mysql:$MYSQL_VER-slim9.9 slim9.9/.
-    after_success:
-    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-    - docker push raphaelguzman/mysql:$MYSQL_VER-slim9.9
-  - env:
-    - MYSQL_VER=5.7
-    os: linux
-    script:
-    - docker build --build-arg MYSQL_VER=$MYSQL_VER -t raphaelguzman/mysql:$MYSQL_VER-slim9.9 slim9.9/.
-    after_success:
-    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-    - docker push raphaelguzman/mysql:$MYSQL_VER-slim9.9
-  - env:
-    - MYSQL_VER=8.0
-    os: linux
-    script:
-    - docker build --build-arg MYSQL_VER=$MYSQL_VER -t raphaelguzman/mysql:$MYSQL_VER-slim9.9 slim9.9/.
-    after_success:
-    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-    - docker push raphaelguzman/mysql:$MYSQL_VER-slim9.9
+    - <<: *slim
+      env:
+      - MYSQL_VER: 5.6
+    - <<: *slim
+      env:
+      - MYSQL_VER: 5.7
+    - <<: *slim
+      env:
+      - MYSQL_VER: 8.0
