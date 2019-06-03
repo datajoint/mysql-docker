@@ -2,10 +2,21 @@ sudo: required
 language: shell
 services: 
 - docker
-# env:
-# - MYSQL_VER=5.6
-# - MYSQL_VER=5.7
-# - MYSQL_VER=5.8
+env:
+- MYSQL_VER=5.6
+- MYSQL_VER=5.7
+- MYSQL_VER=5.8
+os:
+- linux
+- windows
+jobs:
+  include:
+    - # require the branch name to be master (note for PRs this is the base branch name)
+      if: os = linux
+      script: echo "linux"
+    - # require the branch name to be master (note for PRs this is the base branch name)
+      if: os = windows
+      script: echo "windows"
 # os:
 # - linux
 #     script:
@@ -14,20 +25,20 @@ services:
 #     script:
 #     - echo hello
 
-matrix:
-    env:
-            - MYSQL_VER=5.6
-            - MYSQL_VER=5.7
-            - MYSQL_VER=5.8
-    include:
-        - name: "MySQL Linux"
-          os: linux
-          # env:
-          #   - MYSQL_VER=5.6
-          #   - MYSQL_VER=5.7
-          #   - MYSQL_VER=5.8
-          script:
-            - echo "test"
+# matrix:
+#     env:
+#             - MYSQL_VER=5.6
+#             - MYSQL_VER=5.7
+#             - MYSQL_VER=5.8
+#     include:
+#         - name: "MySQL Linux"
+#           os: linux
+#           # env:
+#           #   - MYSQL_VER=5.6
+#           #   - MYSQL_VER=5.7
+#           #   - MYSQL_VER=5.8
+#           script:
+#             - echo "test"
           
     
 # matrix:
