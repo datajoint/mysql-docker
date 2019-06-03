@@ -11,12 +11,18 @@ os:
 - windows
 jobs:
   include:
-    - # require the branch name to be master (note for PRs this is the base branch name)
-      if: os = linux
-      script: echo "linux"
-    - # require the branch name to be master (note for PRs this is the base branch name)
-      if: os = windows
-      script: echo "windows"
+    - on:
+        condition: $TRAVIS_OS_NAME = linux
+        script: echo "hi"
+    - on:
+        condition: $TRAVIS_OS_NAME = windows
+        script: echo "hey"
+    # - # require the branch name to be master (note for PRs this is the base branch name)
+    #   if: os = linux
+    #   script: echo "linux"
+    # - # require the branch name to be master (note for PRs this is the base branch name)
+    #   if: os = windows
+    #   script: echo "windows"
 # os:
 # - linux
 #     script:
