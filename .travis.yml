@@ -4,12 +4,13 @@ services:
 - docker
 matrix:
   include:
-  - name: "MySQL 5.7"
-    os: linux
-    env:
+  - env:
     - MYSQL_VER=5.7
+    os: linux
     script:
     - docker build --build-arg MYSQL_VER=$MYSQL_VER -t raphaelguzman/mysql:$MYSQL_VER-slim9.9 slim9.9/.
+    after_success:
+    - docker push raphaelguzman/mysql:$MYSQL_VER-slim9.9
 
  
 
