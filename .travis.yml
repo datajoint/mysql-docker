@@ -2,55 +2,71 @@ sudo: required
 language: shell
 services: 
 - docker
-env:
-- MYSQL_VER=5.6
-- MYSQL_VER=5.7
-- MYSQL_VER=5.8
-os:
-- linux
-- windows
-jobs:
+matrix:
   include:
-    # - on:
-    #     condition: $TRAVIS_OS_NAME = linux
-    #     script: echo "hi"
-    # - on:
-    #     condition: $TRAVIS_OS_NAME = windows
-    #     script: echo "hey"
-    - if: os = linux
-      script: echo "LINUXXXXX"
-    - if: os = windows
-      script: echo "WINDOWSSSS"
+  - name: "MySQL 5.7"
+    os: linux
+    env:
+    - MYSQL_VER=5.7
+    script:
+    - docker build --build-arg MYSQL_VER=$MYSQL_VER -t raphaelguzman/mysql:$MYSQL_VER-slim9.9 slim9.9/.
+
+ 
+
+
+# sudo: required
+# language: shell
+# services: 
+# - docker
+# env:
+# - MYSQL_VER=5.6
+# - MYSQL_VER=5.7
+# - MYSQL_VER=5.8
 # os:
 # - linux
-#     script:
-#     - echo "test"
 # - windows
-#     script:
-#     - echo hello
+# jobs:
+#   include:
+#     # - on:
+#     #     condition: $TRAVIS_OS_NAME = linux
+#     #     script: echo "hi"
+#     # - on:
+#     #     condition: $TRAVIS_OS_NAME = windows
+#     #     script: echo "hey"
+#     - if: os = linux
+#       script: echo "LINUXXXXX"
+#     - if: os = windows
+#       script: echo "WINDOWSSSS"
+# # os:
+# # - linux
+# #     script:
+# #     - echo "test"
+# # - windows
+# #     script:
+# #     - echo hello
 
-# matrix:
-#     env:
-#             - MYSQL_VER=5.6
-#             - MYSQL_VER=5.7
-#             - MYSQL_VER=5.8
-#     include:
-#         - name: "MySQL Linux"
-#           os: linux
-#           # env:
-#           #   - MYSQL_VER=5.6
-#           #   - MYSQL_VER=5.7
-#           #   - MYSQL_VER=5.8
-#           script:
-#             - echo "test"
+# # matrix:
+# #     env:
+# #             - MYSQL_VER=5.6
+# #             - MYSQL_VER=5.7
+# #             - MYSQL_VER=5.8
+# #     include:
+# #         - name: "MySQL Linux"
+# #           os: linux
+# #           # env:
+# #           #   - MYSQL_VER=5.6
+# #           #   - MYSQL_VER=5.7
+# #           #   - MYSQL_VER=5.8
+# #           script:
+# #             - echo "test"
           
     
-# matrix:
-#   include:
-#   - name: "MySQL Build"
-#     os: linux
+# # matrix:
+# #   include:
+# #   - name: "MySQL Build"
+# #     os: linux
     
-    # - docker build --build-arg MYSQL_VER=$MYSQL_VER -t raphaelguzman/mysql:$MYSQL_VER-slim9.9 slim9.9/.
+#     # - docker build --build-arg MYSQL_VER=$MYSQL_VER -t raphaelguzman/mysql:$MYSQL_VER-slim9.9 slim9.9/.
 
-# script:
-#     - echo $MYSQL_VER
+# # script:
+# #     - echo $MYSQL_VER
