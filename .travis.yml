@@ -17,6 +17,7 @@ matrix:
     script:
     - docker build --build-arg MYSQL_VER=$MYSQL_VER -t raphaelguzman/mysql:$MYSQL_VER-slim9.9 slim9.9/.
     after_success:
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
     - docker push raphaelguzman/mysql:$MYSQL_VER-slim9.9
   # - env:
   #   - MYSQL_VER=8.0
