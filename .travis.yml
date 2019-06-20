@@ -10,12 +10,12 @@ slim: &slim
         - docker rmi mysql:${MYSQL_VER}
         - docker tag ${DOCKER_USERNAME}/mysql:latest ${DOCKER_USERNAME}/mysql:${MYSQL_VER}
         - docker tag ${DOCKER_USERNAME}/mysql:latest ${DOCKER_USERNAME}/mysql:${MYSQL_VER}-slim
-        - docker tag ${DOCKER_USERNAME}/mysql:latest ${DOCKER_USERNAME}/mysql:${MYSQL_VER}-slim-${TRAVIS_COMMIT}
+        - docker tag ${DOCKER_USERNAME}/mysql:latest ${DOCKER_USERNAME}/mysql:${MYSQL_VER}-slim-${TRAVIS_COMMIT:0:7}
         - sh -c "[ \"$MYSQL_VER\" = \"5.7\" ] || docker rmi ${DOCKER_USERNAME}/mysql:latest"
       after_success:
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
         - docker images
-        # - sh -c "for i in `docker images --format \"{{.Repository}}:{{.Tag}}\"; do docker push $i; done"
+        - sh -c "for i in `docker images --format \"{{.Repository}}:{{.Tag}}\"; do docker push $i; done"
 jobs:
   include:
     - <<: *slim
