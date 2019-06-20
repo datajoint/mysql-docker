@@ -14,9 +14,7 @@ slim: &slim
       after_success:
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
         - docker images
-        - echo "mult push goes here"
-        # - for i in `docker images --format "{{.Repository}}:{{.Tag}}"; do docker push $i; done
-        # - docker push datajoint/mysql:$MYSQL_VER-slim9.9
+        - sh -c "for i in `docker images --format \"{{.Repository}}:{{.Tag}}\"; do docker push $i; done"
 jobs:
   include:
     - <<: *slim
