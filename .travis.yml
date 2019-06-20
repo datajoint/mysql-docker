@@ -7,6 +7,7 @@ slim: &slim
       language: shell
       script:
         - docker build --build-arg MYSQL_VER=$MYSQL_VER -t ${DOCKER_USERNAME}/mysql slim/.
+        - docker rmi mysql:${MYSQL_VER}
         - docker tag ${DOCKER_USERNAME}/mysql:latest ${DOCKER_USERNAME}/mysql:${MYSQL_VER}
         - docker tag ${DOCKER_USERNAME}/mysql:latest ${DOCKER_USERNAME}/mysql:${MYSQL_VER}-slim
         - docker tag ${DOCKER_USERNAME}/mysql:latest ${DOCKER_USERNAME}/mysql:${MYSQL_VER}-slim-${TRAVIS_COMMIT}
@@ -14,7 +15,7 @@ slim: &slim
       after_success:
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
         - docker images
-        - sh -c "for i in `docker images --format \"{{.Repository}}:{{.Tag}}\"; do docker push $i; done"
+        # - sh -c "for i in `docker images --format \"{{.Repository}}:{{.Tag}}\"; do docker push $i; done"
 jobs:
   include:
     - <<: *slim
