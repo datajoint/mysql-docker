@@ -10,7 +10,7 @@ slim: &slim
         - docker tag ${DOCKER_USERNAME}/mysql:latest ${DOCKER_USERNAME}/mysql:${MYSQL_VER}
         - docker tag ${DOCKER_USERNAME}/mysql:latest ${DOCKER_USERNAME}/mysql:${MYSQL_VER}-slim
         - docker tag ${DOCKER_USERNAME}/mysql:latest ${DOCKER_USERNAME}/mysql:${MYSQL_VER}-slim-${TRAVIS_COMMIT}
-        - [ "$MYSQL_VER" = "5.7" ] || docker rmi ${DOCKER_USERNAME}/mysql:latest
+        # - [ "$MYSQL_VER" = "5.7" ] || docker rmi ${DOCKER_USERNAME}/mysql:latest
       after_success:
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
         - docker images
