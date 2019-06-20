@@ -2,7 +2,7 @@ ARG  MYSQL_VER=5.7
 FROM mysql:${MYSQL_VER}
 
 LABEL maintainerName="Raphael Guzman" \
-      maintainerEmail="raphael.h.guzman@gmail.com" \
+      maintainerEmail="raphael@vathes.com" \
       maintainerCompany="DataJoint"
       
 ADD my.cnf /etc/mysql/my.cnf

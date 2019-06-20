@@ -1,17 +1,22 @@
 sudo: required
 services: 
 - docker
-
 slim: &slim
-      stage: Slim9.9
+      stage: Slim
       os: linux
       language: shell
       script:
-        - docker build --build-arg MYSQL_VER=$MYSQL_VER -t datajoint/mysql:$MYSQL_VER-slim9.9 slim9.9/.
+        - docker build --build-arg MYSQL_VER=$MYSQL_VER -t ${DOCKER_USERNAME}/mysql slim/.
+        - docker tag ${DOCKER_USERNAME}/mysql:latest ${DOCKER_USERNAME}/mysql:${MYSQL_VER}
+        - docker tag ${DOCKER_USERNAME}/mysql:latest ${DOCKER_USERNAME}/mysql:${MYSQL_VER}-slim
+        - docker tag ${DOCKER_USERNAME}/mysql:latest ${DOCKER_USERNAME}/mysql:${MYSQL_VER}-slim-${TRAVIS_COMMIT}
+        - [ "$MYSQL_VER" = "5.7" ] || docker rmi ${DOCKER_USERNAME}/mysql:latest
       after_success:
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-        - docker push datajoint/mysql:$MYSQL_VER-slim9.9
-
+        - docker images
+        - echo "mult push goes here"
+        # - for i in `docker images --format "{{.Repository}}:{{.Tag}}"; do docker push $i; done
+        # - docker push datajoint/mysql:$MYSQL_VER-slim9.9
 jobs:
   include:
     - <<: *slim
