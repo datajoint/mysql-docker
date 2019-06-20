@@ -15,7 +15,7 @@ slim: &slim
       after_success:
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
         - docker images
-        - sh -c "for i in `docker images --format \"{{.Repository}}:{{.Tag}}\"`; do docker push $i; done"
+        - sh -c "for i in `docker images --format \"{{.Repository}}:{{.Tag}}\"`;do docker push $i; done"
 jobs:
   include:
     - <<: *slim
