@@ -10,4 +10,3 @@ services:
       - MYSQL_ROOT_PASSWORD=simple
     volumes:
       - ./data:/var/lib/mysql
-
