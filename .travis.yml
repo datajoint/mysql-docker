@@ -6,12 +6,12 @@ slim: &slim
       os: linux
       language: shell
       script:
-        - docker build --build-arg MYSQL_VER=$MYSQL_VER -t datajoint/mysql slim/.
+        - docker build --build-arg MYSQL_VER=$MYSQL_VER -t ${DOCKER_USERNAME}/mysql slim/.
         - docker rmi mysql:${MYSQL_VER}
-        - docker tag datajoint/mysql:latest datajoint/mysql:${MYSQL_VER}
-        - docker tag datajoint/mysql:latest datajoint/mysql:${MYSQL_VER}-slim
-        - docker tag datajoint/mysql:latest datajoint/mysql:${MYSQL_VER}-slim-${TRAVIS_COMMIT:0:7}
-        - sh -c "[ \"$MYSQL_VER\" = \"5.7\" ] || docker rmi datajoint/mysql:latest"
+        - docker tag ${DOCKER_USERNAME}/mysql:latest ${DOCKER_USERNAME}/mysql:${MYSQL_VER}
+        - docker tag ${DOCKER_USERNAME}/mysql:latest ${DOCKER_USERNAME}/mysql:${MYSQL_VER}-slim
+        - docker tag ${DOCKER_USERNAME}/mysql:latest ${DOCKER_USERNAME}/mysql:${MYSQL_VER}-slim-${TRAVIS_COMMIT:0:7}
+        - sh -c "[ \"$MYSQL_VER\" = \"5.7\" ] || docker rmi ${DOCKER_USERNAME}/mysql:latest"
       after_success:
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
         - docker images
