@@ -37,7 +37,8 @@ USER root
 ADD my.cnf /etc/mysql/my.cnf
 
 HEALTHCHECK       \
-    --timeout=20s \ 
-    --retries=20  \
+    --timeout=5s \
+    --retries=60  \
+    --interval=1s \
     CMD           \
         mysql --protocol TCP -u"root" -p"$MYSQL_ROOT_PASSWORD" -e "show databases;"
