@@ -78,3 +78,24 @@ mysql > SET PASSWORD FOR root = PASSWORD('your_new_password');
 ```
 
 replacing the `'your_new_password'` with your new desired password surrounded by quotes (`'`).
+
+## Backup
+
+If you wish to take a disk-based backup of the database, simply back up the local directory matching the ':/var/lib/mysql' volume in your compose file when the database is stopped. Please note that this type of backup is version-specific to the mysql version used with this container.
+
+To take a backup without stopping the container, you can run:
+
+```bash
+mysql> flush tables with read lock;
+```
+
+prior to taking the backup, and
+
+```bash
+mysql> unlock tables;
+```
+
+after taking the backup. Please note that this will prevent all write activity in the database while the backup is running, and may not provide a consistent state in some environments (e.g. docker-machine or virtualization environments such as docker for windows). Be sure to check related volume mount documentation for your platform and perform regular recovery checks for your environment before relying on any backup strategy.
+
+More advanced methods for backup such as mysqldump and xtrabackup can also be used to backup the database; please see relevent documentation for further details.
+
