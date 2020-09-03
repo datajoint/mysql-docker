@@ -81,7 +81,7 @@ replacing the `'your_new_password'` with your new desired password surrounded by
 
 ## Backup
 
-If you wish to take a disk-based backup of the database, simply back up the local directory matching the ':/var/lib/mysql' volume in your compose file when the database is stopped. Please note that this type of backup is version-specific to the mysql version used with this container.
+If you wish to take a disk-based backup of the database, simply back up the local directory matching the ':/var/lib/mysql' volume in your compose file when the database is stopped. To restore, simply copy the backed up data into place before launching the container. Please note that this type of backup is version-specific to the mysql version used with this container.
 
 To take a backup without stopping the container, you can run:
 
