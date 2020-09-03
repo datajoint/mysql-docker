@@ -7,12 +7,12 @@ This is a docker image of mysql that comes configured for use with DataJoint!
 ## How to use
 
 ### Using `docker-compose`
-The simplest and the recommended way to configure and run a MySQL server with Docker is to use the [Docker compose](https://docs.docker.com/compose/). Once you have `docker` and `docker-compose` installed on your system (the one on which you'd want to run the MySQL server), copy this [`docker-compose.yml`](https://raw.githubusercontent.com/datajoint/mysql-docker/master/docker-compose.yml) to a folder, and run `docker-compose up -d` to start the MySQL server. Here is a series of commands to run in the terminal to achieve this:
+The simplest and the recommended way to configure and run a MySQL server with Docker is to use the [Docker compose](https://docs.docker.com/compose/). Once you have `docker` and `docker-compose` installed on your system (the one on which you'd want to run the MySQL server), copy this [`docker-compose.yml`](https://raw.githubusercontent.com/datajoint/mysql-docker/master/slim/docker-compose.yml) to a folder, and run `docker-compose up -d` to start the MySQL server. Here is a series of commands to run in the terminal to achieve this:
 
 ```bash
 $ mkdir mysql-docker
 $ cd mysql-docker
-$ wget https://raw.githubusercontent.com/datajoint/mysql-docker/master/docker-compose.yml
+$ wget https://raw.githubusercontent.com/datajoint/mysql-docker/master/slim/docker-compose.yml
 $ sudo docker-compose up -d
 ```
 
@@ -39,10 +39,10 @@ Read on to find out the details about the content of the `docker-compose.yml` an
 The content of the `docker-compose.yml` is rather simple:
 
 ```yml
-version: '2'
+version: '2.4'
 services:
   db:
-    image: datajoint/mysql
+    image: datajoint/mysql:5.7
     ports:
       - "3306:3306"
     environment:
@@ -68,7 +68,7 @@ volumes:
 
 maps the local directory `./data` to the `/var/lib/mysql` inside the container where MySQL stores all of its data by default.
 
-**WARNING**: If you decide map volume `/var/lib/mysql` (like in the example), then settings for your MySQL server will persist across separate Docker `mysql` instances. In particular, this means that the `MYSQL_ROOT_PASSWORD` setting will be used only when the very first `mysql` Docker container is created. To change the `root` password on an alredy created `mysql` Docker instance, access the database via `mysql` client as `root` and run:
+**WARNING**: If you decide to map volume `/var/lib/mysql` (like in the example), then settings for your MySQL server will persist across separate Docker `mysql` instances. In particular, this means that the `MYSQL_ROOT_PASSWORD` setting will be used only when the very first `mysql` Docker container is created. To change the `root` password on an alredy created `mysql` Docker instance, access the database via `mysql` client as `root` and run:
 
 ```bash
 $ mysql -h 127.0.0.1 -u root -p
