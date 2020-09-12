@@ -26,4 +26,5 @@ jobs:
       - MYSQL_VER: 5.7
     - <<: *slim
       env:
-      - MYSQL_VER: 8.0
+      - MYSQL_VER: 8.0.18 # temporary .18 - see README.md for details.
+
