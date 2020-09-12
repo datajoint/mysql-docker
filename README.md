@@ -1,7 +1,11 @@
 # MySQL for DataJoint
 This is a docker image of mysql that comes configured for use with DataJoint!
 
+
 ## Administering the MySQL server
+
+**NOTE** for 8.0.x Users** 8.0.x series images are currently version-pinned to 8.0.18 while CI issues are being investigated - please keep this in mind this may mean important security or reliability patches may not be available for users running the 8.0.x image until this is resolved.
+
 **WARNING** Whether hosted via Docker or directly on a machine, the MySQL server needs to be administered properly. Please refer to an [appropriate reference](https://dev.mysql.com/doc/refman/5.7/en/server-administration.html) to administer the server safely and efficiently.
 
 ## How to use
