@@ -34,11 +34,11 @@ RUN \
             -CA ca.pem -CAkey ca-key.pem -set_serial 01 -out client-cert.pem
 USER root   
 
-ADD my.cnf /etc/mysql/my.cnf
+ADD ./config/my.cnf /etc/mysql/my.cnf
 
 HEALTHCHECK       \
-    --timeout=5s \
-    --retries=60  \
-    --interval=1s \
+    --timeout=30s \
+    --retries=5  \
+    --interval=15s \
     CMD           \
-        mysql --protocol TCP -u"root" -p"$MYSQL_ROOT_PASSWORD" -e "show databases;"
+        mysql --protocol TCP -u"root" -p"$MYSQL_ROOT_PASSWORD" -e "SELECT 1;"
