@@ -7,33 +7,31 @@ This is a docker image of mysql that comes configured for use with DataJoint!
 Administering the MySQL server
 ******************************
 
-**NOTE** for 8.0.x Users** 8.0.x series images are currently version-pinned to 8.0.18 while CI issues are being investigated - please keep this in mind this may mean important security or reliability patches may not be available for users running the 8.0.x image until this is resolved.
-
 **WARNING** Whether hosted via Docker or directly on a machine, the MySQL server needs to be administered properly. Please refer to an `appropriate reference <https://dev.mysql.com/doc/refman/5.7/en/server-administration.html>`_ to administer the server safely and efficiently.
 
 How to use
 **********
 
-Using `docker-compose`
+Using :code:`docker-compose`
 ======================
-The simplest and the recommended way to configure and run a MySQL server with Docker is to use the `Docker compose <https://docs.docker.com/compose/>`_. Once you have `docker` and `docker-compose` installed on your system (the one on which you'd want to run the MySQL server), copy this `docker-compose.yml <https://raw.githubusercontent.com/datajoint/mysql-docker/master/docker-compose.yml>`_ to a folder, and run `docker-compose up -d` to start the MySQL server. Here is a series of commands to run in the terminal to achieve this:
+The simplest and the recommended way to configure and run a MySQL server with Docker is to use the `Docker compose <https://docs.docker.com/compose/>`_. Once you have :code:`docker` and :code:`docker-compose` installed on your system (the one on which you'd want to run the MySQL server), copy this :code:`docker-compose.yaml <https://raw.githubusercontent.com/datajoint/mysql-docker/master/docker-compose.yaml>`_ to a folder, and run :code:`docker-compose up -d` to start the MySQL server. Here is a series of commands to run in the terminal to achieve this:
 
 .. code:: bash
   
     mkdir mysql-docker
     cd mysql-docker
-    wget https://raw.githubusercontent.com/datajoint/mysql-docker/master/docker-compose.yml
-    sudo docker-compose up -d
+    wget https://raw.githubusercontent.com/datajoint/mysql-docker/master/docker-compose.yaml
+    docker-compose up -d
 
-This will start the MySQL server mapped to localhost's port `3306`, and any MySQL data will be stored in the directory `./data`, or if you followed the above instructions, `mysql-docker/data` directory. 
+This will start the MySQL server mapped to localhost's port :code:`3306`, and any MySQL data will be stored in the directory :code:`./data`, or if you followed the above instructions, :code:`mysql-docker/data` directory. 
 
-By default the database sets up user `root` with password `simple` (refer to below on how to change this at the startup). You can access your locally running MySQL server using `mysql` client. On Ubuntu system, you can obtain this by installing `apt` package `mysql-client` as follows:
+By default the database sets up user :code:`root` with password :code:`simple` (refer to below on how to change this at the startup). You can access your locally running MySQL server using :code:`mysql` client. On Ubuntu system, you can obtain this by installing :code:`apt` package :code:`mysql-client` as follows:
 
 .. code:: bash
 
     sudo apt-get install mysql-client
 
-Once `mysql` client is installed, you can access the running server:
+Once :code:`mysql` client is installed, you can access the running server:
 
 .. code:: bash
 
@@ -42,11 +40,11 @@ Once `mysql` client is installed, you can access the running server:
 
     mysql >
 
-Read on to find out the details about the content of the `docker-compose.yml` and how you can customize it to fit your needs.
+Read on to find out the details about the content of the :code:`docker-compose.yaml` and how you can customize it to fit your needs.
 
-What's in `docker-compose.yml`?
+What's in :code:`docker-compose.yaml`?
 ===============================
-The content of the `docker-compose.yml` is rather simple:
+The content of the :code:`docker-compose.yaml` is rather simple:
 
 .. code:: yaml
 
@@ -67,7 +65,7 @@ Let's step through the parts you might want to customize. The line
 
     - MYSQL_ROOT_PASSWORD=simple
 
-configures the default password. If you would like to use something else, you can modify this prior to starting your server with `docker-compose up`.
+configures the default password. If you would like to use something else, you can modify this prior to starting your server with :code:`docker-compose up`.
 
 The lines:
 
@@ -75,9 +73,9 @@ The lines:
     volumes:
       - ./data:/var/lib/mysql
 
-maps the local directory `./data` to the `/var/lib/mysql` inside the container where MySQL stores all of its data by default.
+maps the local directory :code:`./data` to the :code:`/var/lib/mysql` inside the container where MySQL stores all of its data by default.
 
-**WARNING**: If you decide to map volume `/var/lib/mysql` (like in the example), then settings for your MySQL server will persist across separate Docker `mysql` instances. In particular, this means that the `MYSQL_ROOT_PASSWORD` setting will be used only when the very first `mysql` Docker container is created. To change the `root` password on an alredy created `mysql` Docker instance, access the database via `mysql` client as `root` and run:
+**WARNING**: If you decide to map volume :code:`/var/lib/mysql` (like in the example), then settings for your MySQL server will persist across separate Docker :code:`mysql` instances. In particular, this means that the :code:`MYSQL_ROOT_PASSWORD` setting will be used only when the very first :code:`mysql` Docker container is created. To change the :code:`root` password on an alredy created :code:`mysql` Docker instance, access the database via :code:`mysql` client as :code:`root` and run:
 
 .. code:: bash
 
@@ -86,12 +84,12 @@ maps the local directory `./data` to the `/var/lib/mysql` inside the container w
     
     mysql > SET PASSWORD FOR root = PASSWORD('your_new_password');
 
-replacing the `'your_new_password'` with your new desired password surrounded by quotes (`'`).
+replacing the :code:`'your_new_password'` with your new desired password surrounded by quotes (:code:`'`).
 
 Backup
 ******
 
-If you wish to take a disk-based backup of the database, simply back up the local directory matching the ':/var/lib/mysql' volume in your compose file when the database is stopped. To restore, simply copy the backed up data into place before launching the container. Please note that this type of backup is version-specific to the mysql version used with this container.
+If you wish to take a disk-based backup of the database, simply back up the local directory matching the :code:`:/var/lib/mysql` volume in your compose file when the database is stopped. To restore, simply copy the backed up data into place before launching the container. Please note that this type of backup is version-specific to the mysql version used with this container.
 
 To take a backup without stopping the container, you can run:
 
