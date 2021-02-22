@@ -14,7 +14,7 @@ How to use
 
 Using :code:`docker-compose`
 ======================
-The simplest and the recommended way to configure and run a MySQL server with Docker is to use the `Docker compose <https://docs.docker.com/compose/>`_. Once you have :code:`docker` and :code:`docker-compose` installed on your system (the one on which you'd want to run the MySQL server), copy this :code:`docker-compose.yaml <https://raw.githubusercontent.com/datajoint/mysql-docker/master/docker-compose.yaml>`_ to a folder, and run :code:`docker-compose up -d` to start the MySQL server. Here is a series of commands to run in the terminal to achieve this:
+The simplest and the recommended way to configure and run a MySQL server with Docker is to use the `Docker compose <https://docs.docker.com/compose/>`_. Once you have :code:`docker` and :code:`docker-compose` installed on your system (the one on which you'd want to run the MySQL server), copy this `docker-compose.yaml <https://raw.githubusercontent.com/datajoint/mysql-docker/master/docker-compose.yaml>`_ to a folder, and run :code:`docker-compose up -d` to start the MySQL server. Here is a series of commands to run in the terminal to achieve this:
 
 .. code:: bash
   
