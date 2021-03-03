@@ -56,6 +56,7 @@ jobs:
       DOCKER_CLIENT_TIMEOUT: "120"
       COMPOSE_HTTP_TIMEOUT: "120"
     steps:
+      - uses: actions/checkout@v2
       - name: Fetch image artifact
         uses: actions/download-artifact@v2
         with:
