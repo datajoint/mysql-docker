@@ -25,7 +25,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Compile image
         run: |
-          docker-compose -f dist/${DISTRO}/docker-compose.yaml build
+          docker-compose -f dist/${DISTRO}/LNX-docker-compose.yaml build
           IMAGE=$(docker images --filter "reference=datajoint/*" --format "{{.Repository}}")
           TAG=$(docker images --filter "reference=datajoint/*" --format "{{.Tag}}")
           docker save "${IMAGE}:${TAG}" | gzip > "${MYSQL_VER}-${DISTRO}.tar.gz"
