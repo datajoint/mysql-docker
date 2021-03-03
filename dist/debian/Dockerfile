@@ -35,7 +35,8 @@ RUN \
 USER root   
 
 ADD ./utilities/datajoint-entrypoint.sh /datajoint-entrypoint.sh
-ADD ./config/my.cnf /etc/mysql/my.cnf
+COPY --chown=mysql:mysql ./config/my.cnf /etc/mysql/mysql.cnf
+RUN chmod g+w /etc/mysql/mysql.cnf
 ENTRYPOINT ["/datajoint-entrypoint.sh"]
 CMD ["mysqld"]
 HEALTHCHECK       \
