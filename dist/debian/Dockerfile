@@ -34,7 +34,7 @@ RUN \
             -CA ca.pem -CAkey ca-key.pem -set_serial 01 -out client-cert.pem
 USER root   
 
-ADD ./dist/debian/datajoint-entrypoint.sh /datajoint-entrypoint.sh
+ADD ./utilities/datajoint-entrypoint.sh /datajoint-entrypoint.sh
 ADD ./config/my.cnf /etc/mysql/my.cnf
 ENTRYPOINT ["/datajoint-entrypoint.sh"]
 CMD ["mysqld"]
