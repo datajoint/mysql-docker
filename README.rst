@@ -80,6 +80,7 @@ has been commented to indicate that it is optional. It is a DataJoint-unique fea
 The lines:
 
 .. code:: yaml
+
     volumes:
       - ./data:/var/lib/mysql
       # - ./my.cnf:/etc/mysql/my.cnf
