@@ -56,8 +56,10 @@ The content of the :code:`docker-compose.yaml` is rather simple:
           - "3306:3306"
         environment:
           - MYSQL_ROOT_PASSWORD=simple
+          # - DATAJOINT_DATABASE_CONFIG_MONITOR=FALSE
         volumes:
           - ./data:/var/lib/mysql
+          # - ./my.cnf:/etc/mysql/my.cnf
 
 Let's step through the parts you might want to customize. The line
 
@@ -67,13 +69,22 @@ Let's step through the parts you might want to customize. The line
 
 configures the default password. If you would like to use something else, you can modify this prior to starting your server with :code:`docker-compose up`.
 
+The line:
+
+.. code:: yaml
+
+    # - DATAJOINT_DATABASE_CONFIG_MONITOR=FALSE
+
+has been commented to indicate that it is optional. It is a DataJoint-unique feature that can be enabled to allow live reloading of the database server if it detects MySQL config changes. The default is ``FALSE`` as it is depicted.
+
 The lines:
 
 .. code:: yaml
     volumes:
       - ./data:/var/lib/mysql
+      # - ./my.cnf:/etc/mysql/my.cnf
 
-maps the local directory :code:`./data` to the :code:`/var/lib/mysql` inside the container where MySQL stores all of its data by default.
+maps the local directory :code:`./data` to the :code:`/var/lib/mysql` inside the container where MySQL stores all of its data by default. The next line is commented to indicate that it is optional. It overriding the built-in MySQL configuration that is optimized for DataJoint use to allow it to be easily modified. Uncommenting it will allow you to directly modify the configuration from your machine which is useful when coupling with the above ``DATAJOINT_DATABASE_CONFIG_MONITOR`` feature.
 
 **WARNING**: If you decide to map volume :code:`/var/lib/mysql` (like in the example), then settings for your MySQL server will persist across separate Docker :code:`mysql` instances. In particular, this means that the :code:`MYSQL_ROOT_PASSWORD` setting will be used only when the very first :code:`mysql` Docker container is created. To change the :code:`root` password on an alredy created :code:`mysql` Docker instance, access the database via :code:`mysql` client as :code:`root` and run:
 
