@@ -28,7 +28,7 @@ jobs:
           docker-compose -f dist/${DISTRO}/LNX-docker-compose.yaml build
           IMAGE=$(docker images --filter "reference=datajoint/*" --format "{{.Repository}}")
           TAG=$(docker images --filter "reference=datajoint/*" --format "{{.Tag}}")
-          docker save "${IMAGE}:${TAG}" | gzip > "${MYSQL_VER}-${DISTRO}.tar.gz"
+          docker save "${IMAGE}:${TAG}" | gzip > "image-mysql-${MYSQL_VER}-${DISTRO}.tar.gz"
       - name: Add image artifact
         uses: actions/upload-artifact@v2
         with:
@@ -63,7 +63,7 @@ jobs:
           name: ${{format('image-mysql-{0}-{1}', matrix.mysql_ver, matrix.distro)}}
       - name: Verify image
         run: |
-          docker load < "${MYSQL_VER}-${DISTRO}.tar.gz"
+          docker load < "image-mysql-${MYSQL_VER}-${DISTRO}.tar.gz"
           docker-compose -f dist/${DISTRO}/LNX-docker-compose.yaml up \
             --build --exit-code-from db
   publish:
@@ -94,7 +94,7 @@ jobs:
       - name: Publish image
         run: |
           echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-          docker load < "${MYSQL_VER}-${DISTRO}.tar.gz"
+          docker load < "image-mysql-${MYSQL_VER}-${DISTRO}.tar.gz"
           IMAGE=$(docker images --filter "reference=datajoint/*" --format "{{.Repository}}")
           TAG=$(docker images --filter "reference=datajoint/*" --format "{{.Tag}}")
           docker push "${IMAGE}:${TAG}"
