@@ -1,0 +1,9 @@
+data
+.DS_Store
+~*
+*~
+.vscode
+.env
+*.tar.gz
+docs/_build
+sphinx-validator.yaml

@@ -7,7 +7,7 @@ LABEL maintainerName="Raphael Guzman" \
 
 RUN \
     apt-get update && \
-    apt-get -y install openssl && \
+    apt-get install openssl -y && \
     mkdir /mysql_keys && \
     chown mysql:mysql /mysql_keys
 
@@ -34,11 +34,16 @@ RUN \
             -CA ca.pem -CAkey ca-key.pem -set_serial 01 -out client-cert.pem
 USER root   
 
-ADD my.cnf /etc/mysql/my.cnf
-
+ADD ./utilities/datajoint-entrypoint.sh /datajoint-entrypoint.sh
+COPY --chown=mysql:mysql ./config/my.cnf /etc/mysql/mysql.cnf
+RUN chmod g+w /etc/mysql/mysql.cnf
+ENTRYPOINT ["/datajoint-entrypoint.sh"]
+CMD ["mysqld"]
 HEALTHCHECK       \
-    --timeout=5s \
-    --retries=60  \
-    --interval=1s \
+    --timeout=30s \
+    --retries=5  \
+    --interval=15s \
     CMD           \
-        mysql --protocol TCP -u"root" -p"$MYSQL_ROOT_PASSWORD" -e "show databases;"
+        mysql --protocol TCP -u"root" -p"$MYSQL_ROOT_PASSWORD" -e "SELECT 1;"
+
+ENV DATAJOINT_DATABASE_CONFIG_MONITOR FALSE

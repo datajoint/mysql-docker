@@ -1,0 +1,31 @@
+# docker-compose -f dist/debian/LNX-docker-compose.yaml up --exit-code-from db --build
+version: '2.4'
+services:
+  db:
+    build:
+      context: ../..
+      dockerfile: dist/${DISTRO}/Dockerfile
+      args:
+        - MYSQL_VER
+    image: datajoint/mysql:${MYSQL_VER}
+    environment:
+      - DISTRO
+      - MYSQL_ROOT_PASSWORD=simple
+    entrypoint: bash
+    command:
+      - -c
+      - |
+        # force crash on any failure
+        set -e
+        # verify OS
+        cat /etc/issue 2>&1 | grep -i $${DISTRO}
+        # start MySQL in background
+        docker-entrypoint.sh mysqld &
+        # monitor until accepting connections
+        while ! mysql --protocol TCP -uroot -p$${MYSQL_ROOT_PASSWORD} -e "SELECT 1;" \
+            &> /dev/null; do
+          sleep 5
+        done
+        # verify MySQL version
+        mysql --protocol TCP -uroot -p$${MYSQL_ROOT_PASSWORD} -e "SELECT @@VERSION;" \
+          | grep "$${MYSQL_VER}"

@@ -1,36 +1,106 @@
-# This is a basic workflow to help you get started with Actions
-
-name: CI
-
-# Controls when the action will run. 
+name: Development
 on:
-  # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches: [ master ]
   pull_request:
-    branches: [ master ]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
+    strategy:
+      matrix:
+        include:
+          - mysql_ver: 5.7
+            distro: debian
+          - mysql_ver: 8
+            distro: debian
+          - mysql_ver: 5.6
+            distro: debian
+          - mysql_ver: 8.0.18 # temporary .18 - see README.rst for details.
+            distro: debian
+    env:
+      MYSQL_VER: ${{matrix.mysql_ver}}
+      DISTRO: ${{matrix.distro}}
+      DOCKER_CLIENT_TIMEOUT: "120"
+      COMPOSE_HTTP_TIMEOUT: "120"
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
-
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - name: Compile image
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          docker-compose -f dist/${DISTRO}/LNX-docker-compose.yaml build
+          IMAGE=$(docker images --filter "reference=datajoint/*" --format "{{.Repository}}")
+          TAG=$(docker images --filter "reference=datajoint/*" --format "{{.Tag}}")
+          docker save "${IMAGE}:${TAG}" | gzip > "image-mysql-${MYSQL_VER}-${DISTRO}.tar.gz"
+      - name: Add image artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{format('image-mysql-{0}-{1}', matrix.mysql_ver, matrix.distro)}}
+          path: >
+            ${{format('image-mysql-{0}-{1}.tar.gz', matrix.mysql_ver, matrix.distro)}}
+          retention-days: 1
+  test:
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - mysql_ver: 5.7
+            distro: debian
+          - mysql_ver: 8
+            distro: debian
+          - mysql_ver: 5.6
+            distro: debian
+          - mysql_ver: 8.0.18 # temporary .18 - see README.rst for details.
+            distro: debian
+    env:
+      MYSQL_VER: ${{matrix.mysql_ver}}
+      DISTRO: ${{matrix.distro}}
+      DOCKER_CLIENT_TIMEOUT: "120"
+      COMPOSE_HTTP_TIMEOUT: "120"
+    steps:
+      - uses: actions/checkout@v2
+      - name: Fetch image artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: ${{format('image-mysql-{0}-{1}', matrix.mysql_ver, matrix.distro)}}
+      - name: Verify image
+        run: |
+          docker load < "image-mysql-${MYSQL_VER}-${DISTRO}.tar.gz"
+          docker-compose -f dist/${DISTRO}/LNX-docker-compose.yaml up \
+            --build --exit-code-from db
+  publish:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+    needs: test
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - mysql_ver: 5.7
+            distro: debian
+          - mysql_ver: 8
+            distro: debian
+          - mysql_ver: 5.6
+            distro: debian
+          - mysql_ver: 8.0.18 # temporary .18 - see README.rst for details.
+            distro: debian
+    env:
+      MYSQL_VER: ${{matrix.mysql_ver}}
+      DISTRO: ${{matrix.distro}}
+      DOCKER_USERNAME: ${{secrets.docker_username}}
+      DOCKER_PASSWORD: ${{secrets.docker_password}}
+    steps:
+      - name: Fetch image artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: ${{format('image-mysql-{0}-{1}', matrix.mysql_ver, matrix.distro)}}
+      - name: Publish image
+        run: |
+          echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+          docker load < "image-mysql-${MYSQL_VER}-${DISTRO}.tar.gz"
+          IMAGE=$(docker images --filter "reference=datajoint/*" --format "{{.Repository}}")
+          TAG=$(docker images --filter "reference=datajoint/*" --format "{{.Tag}}")
+          docker push "${IMAGE}:${TAG}"
+          docker tag "${IMAGE}:${TAG}" "${IMAGE}:${TAG}-${GITHUB_SHA:0:7}"
+          docker push "${IMAGE}:${TAG}-${GITHUB_SHA:0:7}"
+          [ "$MYSQL_VER" == "5.7" ] && [ "$DISTRO" == "debian" ] \
+                  && docker tag "${IMAGE}:${TAG}" "${IMAGE}:latest" \
+                  && docker push "${IMAGE}:latest" \
+              || echo "skipping 'latest' tag..."
