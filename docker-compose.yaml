@@ -16,4 +16,4 @@ services:
       ## persist data across docker-compose up/down
       - ./data:/var/lib/mysql
       ## modify MySQL config
-      # - ./my.cnf:/etc/mysql/my.cnf
+      # - ./config/my.cnf:/etc/mysql/my.cnf
