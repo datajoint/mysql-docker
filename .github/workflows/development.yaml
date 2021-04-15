@@ -12,8 +12,6 @@ jobs:
             distro: debian
           - mysql_ver: 8
             distro: debian
-          - mysql_ver: 5.6
-            distro: debian
           - mysql_ver: 8.0.18 # temporary .18 - see README.rst for details.
             distro: debian
     env:
@@ -46,8 +44,6 @@ jobs:
             distro: debian
           - mysql_ver: 8
             distro: debian
-          - mysql_ver: 5.6
-            distro: debian
           - mysql_ver: 8.0.18 # temporary .18 - see README.rst for details.
             distro: debian
     env:
@@ -76,8 +72,6 @@ jobs:
           - mysql_ver: 5.7
             distro: debian
           - mysql_ver: 8
-            distro: debian
-          - mysql_ver: 5.6
             distro: debian
           - mysql_ver: 8.0.18 # temporary .18 - see README.rst for details.
             distro: debian
