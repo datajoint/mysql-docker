@@ -23,7 +23,7 @@ The simplest and the recommended way to configure and run a MySQL server with Do
     wget https://raw.githubusercontent.com/datajoint/mysql-docker/master/docker-compose.yaml
     docker-compose up -d
 
-On MacOS you can install `wget` or use the pre-installed `curl` as shown below:
+On MacOS you can install :code:`wget` or use the pre-installed :code:`curl` as shown below:
 
 .. code:: bash
   
