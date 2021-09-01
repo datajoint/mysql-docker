@@ -23,6 +23,14 @@ The simplest and the recommended way to configure and run a MySQL server with Do
     wget https://raw.githubusercontent.com/datajoint/mysql-docker/master/docker-compose.yaml
     docker-compose up -d
 
+On MacOS you can install `wget` or use the pre-installed `curl` as shown below:
+.. code:: bash
+  
+    mkdir mysql-docker
+    cd mysql-docker
+    curl https://raw.githubusercontent.com/datajoint/mysql-docker/master/docker-compose.yaml --output ./docker-compose.yaml
+    docker-compose up -d
+
 This will start the MySQL server mapped to localhost's port :code:`3306`, and any MySQL data will be stored in the directory :code:`./data`, or if you followed the above instructions, :code:`mysql-docker/data` directory. 
 
 By default the database sets up user :code:`root` with password :code:`simple` (refer to below on how to change this at the startup). You can access your locally running MySQL server using :code:`mysql` client. On Ubuntu system, you can obtain this by installing :code:`apt` package :code:`mysql-client` as follows:
