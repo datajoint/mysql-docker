@@ -24,6 +24,7 @@ The simplest and the recommended way to configure and run a MySQL server with Do
     docker-compose up -d
 
 On MacOS you can install `wget` or use the pre-installed `curl` as shown below:
+
 .. code:: bash
   
     mkdir mysql-docker
