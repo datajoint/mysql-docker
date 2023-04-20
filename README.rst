@@ -127,3 +127,10 @@ prior to taking the backup, and
 after taking the backup. Please note that this will prevent all write activity in the database while the backup is running, and may not provide a consistent state in some environments (e.g. docker-machine or virtualization environments such as docker for windows). Be sure to check related volume mount documentation for your platform and perform regular recovery checks for your environment before relying on any backup strategy.
 
 More advanced methods for backup such as mysqldump and xtrabackup can also be used to backup the database; please see relevent documentation for further details.
+
+A strategy such as ``mysqldump`` has the benefit of being able to perform a backup without requiring database downtime. The following is an example:
+
+``mysqldump -h$DJ_HOST -u${DJ_USER} -p$DJ_PASS --system=user --quick -v --databases schema_a schema_b schema_c > backup.sql``
+
+In the above, we connect to MySQL server ``$DJ_HOST`` using user ``$DJ_USER`` with password ``$DJ_PASS``. We perform a backup of the specific schemas ``schema_a``, ``schema_b``, ``schema_c`` written to a file ``backup.sql``. Optional flags were added to include: user management info (usernames + grants), skip caching to commit more often to file, and write more verbose logs.
+
