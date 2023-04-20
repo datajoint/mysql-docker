@@ -1,7 +1,7 @@
 MySQL for DataJoint
 ###################
 
-Docker image of MySQL version 5.7 or 8.0 that comes configured for use with DataJoint!
+Docker image of MySQL (version 5.7 or 8.0) that comes configured for use with DataJoint!
 
 
 Administering the MySQL server
