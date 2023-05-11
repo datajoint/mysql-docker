@@ -1,7 +1,7 @@
 MySQL for DataJoint
 ###################
 
-This is a docker image of mysql that comes configured for use with DataJoint!
+Docker image of MySQL (version 5.7 or 8.0) that comes configured for use with DataJoint!
 
 
 Administering the MySQL server
@@ -51,7 +51,7 @@ The content of the :code:`docker-compose.yaml` is rather simple:
     version: '2.4'
     services:
       db:
-        image: datajoint/mysql:5.7
+        image: datajoint/mysql:5.7 # or datajoint/mysql:8.0
         ports:
           - "3306:3306"
         environment:
